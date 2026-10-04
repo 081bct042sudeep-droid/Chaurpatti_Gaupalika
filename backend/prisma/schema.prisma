@@ -1,5 +1,6 @@
 generator client {
   provider = "prisma-client-js"
+  output   = "../node_modules/.prisma/map-client"
 }
 
 datasource db {
@@ -55,6 +56,63 @@ model Ward {
   source             SourceMetadata? @relation("WardSource", fields: [sourceMetadataId], references: [id])
   createdAt          DateTime @default(now())
   updatedAt          DateTime @updatedAt
+}
+
+model MapCategory {
+  id        String      @id @default(cuid())
+  slug      String      @unique
+  nameNp    String
+  nameEn    String
+  icon      String?
+  isActive  Boolean     @default(true)
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  places    MapPlace[]
+}
+
+model MapPlace {
+  id             String      @id @default(cuid())
+  slug           String      @unique
+  nameNp         String
+  nameEn         String?
+  descriptionNp  String?
+  descriptionEn  String?
+  categoryId     String
+  wardNumber     Int?
+  latitude       Float?
+  longitude      Float?
+  geometryType   String      @default("POINT")
+  geometry       String?
+  address        String?
+  phone          String?
+  email          String?
+  website        String?
+  imageUrl       String?
+  openingHours   String?
+  isPublished    Boolean     @default(false)
+  isVerified     Boolean     @default(false)
+  sourceName     String?
+  sourceUrl      String?
+  verifiedAt     DateTime?
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+  category       MapCategory @relation(fields: [categoryId], references: [id])
+  @@index([isPublished, isVerified, wardNumber])
+  @@index([categoryId])
+}
+
+model MapBoundary {
+  id          String   @id @default(cuid())
+  name        String
+  layerType   String   @default("WARD_BOUNDARY")
+  wardNumber  Int?
+  geoJson     String
+  sourceName  String?
+  sourceUrl   String?
+  isPublished Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  @@index([isPublished, layerType, wardNumber])
 }
 
 model Representative {

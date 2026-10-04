@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { AppealStatus, AppealType, CommentStatus, ReportStatus } from './appeal-enums';
-import { Prisma } from '@prisma/client';
+import { Prisma } from '../node_modules/.prisma/map-client';
 import { randomBytes } from 'node:crypto';
 import { PrismaService } from './prisma.service';
 

@@ -9,6 +9,7 @@ async function bootstrap() {
   app.use(json({ limit: '15mb' }));
   app.use(urlencoded({ extended: true, limit: '15mb' }));
   app.use('/api/uploads/appeals', expressStatic(join(process.cwd(), 'uploads', 'appeals')));
+  app.use('/api/uploads/map', expressStatic(join(process.cwd(), 'uploads', 'map')));
   app.enableCors({ origin: true });
   app.setGlobalPrefix('api');
   app.useGlobalPipes(new ValidationPipe({ transform: true, whitelist: true }));

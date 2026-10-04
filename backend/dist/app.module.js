@@ -14,14 +14,16 @@ const notices_controller_1 = require("./notices.controller");
 const notices_service_1 = require("./notices.service");
 const appeals_module_1 = require("./appeals.module");
 const prisma_module_1 = require("./prisma.module");
+const map_controller_1 = require("./map.controller");
+const map_service_1 = require("./map.service");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [prisma_module_1.PrismaModule, official_data_import_module_1.OfficialDataImportModule, appeals_module_1.AppealsModule],
-        controllers: [health_controller_1.HealthController, notices_controller_1.NoticesController],
-        providers: [notices_service_1.NoticesService],
+        controllers: [health_controller_1.HealthController, notices_controller_1.NoticesController, map_controller_1.MapController],
+        providers: [notices_service_1.NoticesService, map_service_1.MapService],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map

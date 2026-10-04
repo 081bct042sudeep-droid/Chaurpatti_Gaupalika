@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title">
+  <title id="title">Chaurpati Rural Municipality emblem</title>
+  <defs>
+    <clipPath id="scene"><circle cx="64" cy="64" r="52"/></clipPath>
+    <linearGradient id="sky" x2="0" y2="1"><stop stop-color="#91d5f1"/><stop offset="1" stop-color="#fff2c5"/></linearGradient>
+    <linearGradient id="river" x2="0" y2="1"><stop stop-color="#75c6e5"/><stop offset="1" stop-color="#1978a1"/></linearGradient>
+  </defs>
+  <circle cx="64" cy="64" r="61" fill="#064d35"/>
+  <circle cx="64" cy="64" r="56.5" fill="#fff"/>
+  <g clip-path="url(#scene)">
+    <path fill="url(#sky)" d="M12 12h104v55H12z"/>
+    <circle cx="84" cy="34" r="12" fill="#ffca4e"/>
+    <path fill="#79b3d4" d="m18 57 23-28 10 12 12-17 25 32 11-14 20 23v19H18z"/>
+    <path fill="#f9ffff" d="m34 38 7-9 4 6 3-2 5 8-7-3-4 2-4-3zm19-7 10-7 8 9-7-3-4 3-3-2zm33 16 2-5 3 4 3-1 5 5-6-2-3 2z"/>
+    <path fill="#28789a" d="m12 62 25-20 13 11 16-17 31 25 10-12 21 15v22H12z"/>
+    <path fill="#236847" d="M12 67q21-18 41-3t38-1q18-12 37 1v30H12z"/>
+    <path fill="#4f8f50" d="M12 76q24-16 44 0t37-2q18-10 35 1v20H12z"/>
+    <path fill="#aacb6c" d="M88 72h36v25H88z"/>
+    <path fill="none" stroke="#e8d980" stroke-width="2" d="M91 77h30M89 83h34M89 89h34"/>
+    <path fill="url(#river)" d="M35 82q25-11 44-1t49-2v20H25z"/>
+    <path fill="none" stroke="#eaffff" stroke-width="2" d="M40 88q22-8 39 0t44-2"/>
+    <path fill="#35473d" d="M13 67h37v4H13zm4-4 14-8 15 8z"/>
+    <path fill="#8d3027" d="M16 66h31l-3 3H19z"/>
+    <path fill="#4f3022" d="M20 69h23v12H20z"/>
+    <path fill="#e8d4a9" d="M18 80h27v3H18z"/>
+    <path fill="#d3e7da" d="M12 97q24-8 51-2t53-1v26H12z"/>
+    <path d="M12 96q24-8 51-2t53-1" stroke="#fff" stroke-width="3" fill="none"/>
+    <path fill="#e82932" stroke="#152e72" stroke-width="1.5" d="M60 101v19h20L68 109h12z"/>
+    <path fill="#fff" d="m64 105 1 2h2l-2 1 1 2-2-1-2 1 1-2-2-1h2zm7 8 1 2h2l-2 1 1 2-2-1-2 1 1-2-2-1h2z"/>
+  </g>
+  <circle cx="64" cy="64" r="52.5" fill="none" stroke="#fff" stroke-width="2"/>
+</svg>

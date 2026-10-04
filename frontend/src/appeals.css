@@ -5,3 +5,5 @@
 @media(max-width:900px){.appeals-home-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.ja-admin-metrics{grid-template-columns:repeat(4,minmax(0,1fr))}}
 @media(max-width:600px){.appeals-home-section{padding:24px 16px;margin:0 12px 36px}.appeals-home-section>header{align-items:flex-start;flex-direction:column}.appeals-home-grid{grid-template-columns:1fr}.ja-admin-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.ja-admin-queue>article{grid-template-columns:1fr}.ja-analytics{grid-template-columns:1fr}.ja-admin-nav{overflow-x:auto}}
 .ja-admin-delete{border:1px solid #e7b8b4;background:#fff7f6;color:#a33c36;border-radius:8px;padding:8px 11px;cursor:pointer}.ja-admin-delete:hover{background:#fce9e7}
+
+.ja-emblem { display: block; object-fit: cover; background: transparent; border-radius: 50%; flex: none; }

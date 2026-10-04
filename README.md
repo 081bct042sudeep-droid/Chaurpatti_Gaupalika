@@ -40,3 +40,20 @@ SQLite setup creates a new local database and does not copy records from the old
 Citizen images are stored under `backend/uploads/appeals` and served through `/api/uploads/appeals`. Use persistent disk storage or replace this adapter with an object-storage service before deploying to an environment with ephemeral filesystems. Visitor accounts are browser-session identities because this project has no user/account authentication system; clearing browser storage loses the local “My appeals” link and voting identity.
 
 The backend has no configured test or lint scripts. `npm run build` and Prisma validation are available; the frontend provides `npm run lint` and `npm run build`.
+
+## Explore Map GIS
+
+The public map is available at `/map` and the authenticated map manager at `/admin/map`. It reads only places marked both verified and published. The map database starts empty because the project did not contain verified facility coordinates or ward boundaries; add real records and source details in the map manager before expecting municipal markers. The map search also looks up geographic names such as Achham through Nominatim when you submit the search; external geographic results are clearly labeled and are not treated as verified municipal places. Requests are cached and throttled, and the provider can be changed with `GEOCODER_URL`.
+
+From `backend`, apply the additive SQLite migration and generate the Prisma client:
+
+```powershell
+npx prisma migrate deploy
+npx prisma generate
+```
+
+In the map manager, create categories, add places with source name/URL and verified coordinates, then publish. Boundary GeoJSON imports support `FeatureCollection`, `Feature`, `Polygon`, and `MultiPolygon`; published boundaries require provenance. Map photos can be uploaded as JPG, PNG, or WEBP and are stored under `backend/uploads/map`.
+
+Copy `frontend/.env.example` to `frontend/.env` to configure map tile templates or a verified starting center. Tile templates are browser-visible provider URLs and must contain `{z}`, `{x}`, and `{y}`. The default street layer uses OpenStreetMap tiles for local development with attribution; configure an appropriate provider for sustained public traffic. Satellite and terrain layers stay unavailable until configured. No street-level imagery provider is configured, so the details panel reports that honestly.
+
+Set `ROUTING_SERVICE_URL` in `backend/.env` to an OSRM-compatible driving route endpoint if you operate or subscribe to a production routing service. Without it, the application uses the public OSRM demo service on a best-effort basis; it supports driving only and does not guarantee availability. Browser geolocation is requested only after the visitor selects “मेरो स्थान”. Public appeal markers use the appeal module's rounded coordinates and never include private contact or author fields.

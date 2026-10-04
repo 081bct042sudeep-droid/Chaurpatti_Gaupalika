@@ -1,28 +1,28 @@
 import { AppealStatus, AppealType, CommentStatus, ReportStatus } from './appeal-enums';
-import { Prisma } from '@prisma/client';
+import { Prisma } from '../node_modules/.prisma/map-client';
 import { PrismaService } from './prisma.service';
 export declare class AppealsService {
     private readonly prisma;
     constructor(prisma: PrismaService);
     categories(): Promise<{
         id: string;
-        updatedAt: Date;
-        createdAt: Date;
         nameNp: string;
         nameEn: string;
         slug: string;
         icon: string | null;
         isActive: boolean;
+        createdAt: Date;
+        updatedAt: Date;
     }[]>;
     adminCategories(): Prisma.PrismaPromise<{
         id: string;
-        updatedAt: Date;
-        createdAt: Date;
         nameNp: string;
         nameEn: string;
         slug: string;
         icon: string | null;
         isActive: boolean;
+        createdAt: Date;
+        updatedAt: Date;
     }[]>;
     listPublic(query: {
         page?: number;
@@ -37,35 +37,35 @@ export declare class AppealsService {
         items: (Omit<{
             category: {
                 id: string;
-                updatedAt: Date;
-                createdAt: Date;
                 nameNp: string;
                 nameEn: string;
                 slug: string;
                 icon: string | null;
                 isActive: boolean;
+                createdAt: Date;
+                updatedAt: Date;
             };
         } & {
             id: string;
-            updatedAt: Date;
-            title: string;
-            imageUrl: string | null;
-            publishedAt: Date | null;
-            status: string;
             createdAt: Date;
+            updatedAt: Date;
             referenceId: string;
             type: string;
+            title: string;
             description: string;
             wardId: string | null;
             categoryId: string;
             latitude: number | null;
             longitude: number | null;
+            imageUrl: string | null;
+            status: string;
             authorId: string | null;
             authorName: string | null;
             contact: string | null;
             isAnonymous: boolean;
             supportCount: number;
             commentCount: number;
+            publishedAt: Date | null;
             resolvedAt: Date | null;
             resolutionNote: string | null;
             resolutionMediaUrl: string | null;
@@ -82,19 +82,19 @@ export declare class AppealsService {
     findPublic(id: string): Promise<Omit<{
         category: {
             id: string;
-            updatedAt: Date;
-            createdAt: Date;
             nameNp: string;
             nameEn: string;
             slug: string;
             icon: string | null;
             isActive: boolean;
+            createdAt: Date;
+            updatedAt: Date;
         };
         comments: {
             id: string;
+            createdAt: Date;
             updatedAt: Date;
             status: string;
-            createdAt: Date;
             appealId: string;
             userId: string | null;
             parentId: string | null;
@@ -109,33 +109,33 @@ export declare class AppealsService {
         }[];
         history: {
             id: string;
-            status: string;
             createdAt: Date;
+            status: string;
             appealId: string;
             note: string | null;
             createdBy: string | null;
         }[];
     } & {
         id: string;
-        updatedAt: Date;
-        title: string;
-        imageUrl: string | null;
-        publishedAt: Date | null;
-        status: string;
         createdAt: Date;
+        updatedAt: Date;
         referenceId: string;
         type: string;
+        title: string;
         description: string;
         wardId: string | null;
         categoryId: string;
         latitude: number | null;
         longitude: number | null;
+        imageUrl: string | null;
+        status: string;
         authorId: string | null;
         authorName: string | null;
         contact: string | null;
         isAnonymous: boolean;
         supportCount: number;
         commentCount: number;
+        publishedAt: Date | null;
         resolvedAt: Date | null;
         resolutionNote: string | null;
         resolutionMediaUrl: string | null;
@@ -159,35 +159,35 @@ export declare class AppealsService {
     }, authorTokenHash: string): Promise<Omit<{
         category: {
             id: string;
-            updatedAt: Date;
-            createdAt: Date;
             nameNp: string;
             nameEn: string;
             slug: string;
             icon: string | null;
             isActive: boolean;
+            createdAt: Date;
+            updatedAt: Date;
         };
     } & {
         id: string;
-        updatedAt: Date;
-        title: string;
-        imageUrl: string | null;
-        publishedAt: Date | null;
-        status: string;
         createdAt: Date;
+        updatedAt: Date;
         referenceId: string;
         type: string;
+        title: string;
         description: string;
         wardId: string | null;
         categoryId: string;
         latitude: number | null;
         longitude: number | null;
+        imageUrl: string | null;
+        status: string;
         authorId: string | null;
         authorName: string | null;
         contact: string | null;
         isAnonymous: boolean;
         supportCount: number;
         commentCount: number;
+        publishedAt: Date | null;
         resolvedAt: Date | null;
         resolutionNote: string | null;
         resolutionMediaUrl: string | null;
@@ -199,40 +199,40 @@ export declare class AppealsService {
     listMine(authorTokenHash: string): Promise<{
         latestUpdate: {
             id: string;
-            status: string;
             createdAt: Date;
+            status: string;
             appealId: string;
             note: string | null;
             createdBy: string | null;
         };
         category: {
             id: string;
-            updatedAt: Date;
-            createdAt: Date;
             nameNp: string;
             nameEn: string;
             slug: string;
             icon: string | null;
             isActive: boolean;
+            createdAt: Date;
+            updatedAt: Date;
         };
         id: string;
-        updatedAt: Date;
-        title: string;
-        imageUrl: string | null;
-        publishedAt: Date | null;
-        status: string;
         createdAt: Date;
+        updatedAt: Date;
         referenceId: string;
         type: string;
+        title: string;
         description: string;
         wardId: string | null;
         categoryId: string;
         latitude: number | null;
         longitude: number | null;
+        imageUrl: string | null;
+        status: string;
         authorName: string | null;
         isAnonymous: boolean;
         supportCount: number;
         commentCount: number;
+        publishedAt: Date | null;
         resolvedAt: Date | null;
         resolutionNote: string | null;
         resolutionMediaUrl: string | null;
@@ -246,9 +246,9 @@ export declare class AppealsService {
     }>;
     comment(id: string, content: string, userId: string, parentId?: string): Promise<{
         id: string;
+        createdAt: Date;
         updatedAt: Date;
         status: string;
-        createdAt: Date;
         appealId: string;
         userId: string | null;
         parentId: string | null;
@@ -256,9 +256,9 @@ export declare class AppealsService {
     }>;
     report(id: string, reason: string, description?: string, reportedBy?: string, commentId?: string): Promise<{
         id: string;
-        status: string;
         createdAt: Date;
         description: string | null;
+        status: string;
         resolvedAt: Date | null;
         appealId: string;
         reportedBy: string | null;
@@ -268,19 +268,19 @@ export declare class AppealsService {
     adminList(status?: AppealStatus): Prisma.PrismaPromise<({
         category: {
             id: string;
-            updatedAt: Date;
-            createdAt: Date;
             nameNp: string;
             nameEn: string;
             slug: string;
             icon: string | null;
             isActive: boolean;
+            createdAt: Date;
+            updatedAt: Date;
         };
         comments: {
             id: string;
+            createdAt: Date;
             updatedAt: Date;
             status: string;
-            createdAt: Date;
             appealId: string;
             userId: string | null;
             parentId: string | null;
@@ -288,9 +288,9 @@ export declare class AppealsService {
         }[];
         reports: {
             id: string;
-            status: string;
             createdAt: Date;
             description: string | null;
+            status: string;
             resolvedAt: Date | null;
             appealId: string;
             reportedBy: string | null;
@@ -306,33 +306,33 @@ export declare class AppealsService {
         }[];
         history: {
             id: string;
-            status: string;
             createdAt: Date;
+            status: string;
             appealId: string;
             note: string | null;
             createdBy: string | null;
         }[];
     } & {
         id: string;
-        updatedAt: Date;
-        title: string;
-        imageUrl: string | null;
-        publishedAt: Date | null;
-        status: string;
         createdAt: Date;
+        updatedAt: Date;
         referenceId: string;
         type: string;
+        title: string;
         description: string;
         wardId: string | null;
         categoryId: string;
         latitude: number | null;
         longitude: number | null;
+        imageUrl: string | null;
+        status: string;
         authorId: string | null;
         authorName: string | null;
         contact: string | null;
         isAnonymous: boolean;
         supportCount: number;
         commentCount: number;
+        publishedAt: Date | null;
         resolvedAt: Date | null;
         resolutionNote: string | null;
         resolutionMediaUrl: string | null;
@@ -340,19 +340,19 @@ export declare class AppealsService {
     adminDetail(id: string): Promise<{
         category: {
             id: string;
-            updatedAt: Date;
-            createdAt: Date;
             nameNp: string;
             nameEn: string;
             slug: string;
             icon: string | null;
             isActive: boolean;
+            createdAt: Date;
+            updatedAt: Date;
         };
         comments: {
             id: string;
+            createdAt: Date;
             updatedAt: Date;
             status: string;
-            createdAt: Date;
             appealId: string;
             userId: string | null;
             parentId: string | null;
@@ -360,9 +360,9 @@ export declare class AppealsService {
         }[];
         reports: {
             id: string;
-            status: string;
             createdAt: Date;
             description: string | null;
+            status: string;
             resolvedAt: Date | null;
             appealId: string;
             reportedBy: string | null;
@@ -378,33 +378,33 @@ export declare class AppealsService {
         }[];
         history: {
             id: string;
-            status: string;
             createdAt: Date;
+            status: string;
             appealId: string;
             note: string | null;
             createdBy: string | null;
         }[];
     } & {
         id: string;
-        updatedAt: Date;
-        title: string;
-        imageUrl: string | null;
-        publishedAt: Date | null;
-        status: string;
         createdAt: Date;
+        updatedAt: Date;
         referenceId: string;
         type: string;
+        title: string;
         description: string;
         wardId: string | null;
         categoryId: string;
         latitude: number | null;
         longitude: number | null;
+        imageUrl: string | null;
+        status: string;
         authorId: string | null;
         authorName: string | null;
         contact: string | null;
         isAnonymous: boolean;
         supportCount: number;
         commentCount: number;
+        publishedAt: Date | null;
         resolvedAt: Date | null;
         resolutionNote: string | null;
         resolutionMediaUrl: string | null;
@@ -414,25 +414,25 @@ export declare class AppealsService {
     }>;
     changeStatus(id: string, status: AppealStatus, note?: string, createdBy?: string): Promise<{
         id: string;
-        updatedAt: Date;
-        title: string;
-        imageUrl: string | null;
-        publishedAt: Date | null;
-        status: string;
         createdAt: Date;
+        updatedAt: Date;
         referenceId: string;
         type: string;
+        title: string;
         description: string;
         wardId: string | null;
         categoryId: string;
         latitude: number | null;
         longitude: number | null;
+        imageUrl: string | null;
+        status: string;
         authorId: string | null;
         authorName: string | null;
         contact: string | null;
         isAnonymous: boolean;
         supportCount: number;
         commentCount: number;
+        publishedAt: Date | null;
         resolvedAt: Date | null;
         resolutionNote: string | null;
         resolutionMediaUrl: string | null;
@@ -446,35 +446,35 @@ export declare class AppealsService {
     }): Promise<{
         category: {
             id: string;
-            updatedAt: Date;
-            createdAt: Date;
             nameNp: string;
             nameEn: string;
             slug: string;
             icon: string | null;
             isActive: boolean;
+            createdAt: Date;
+            updatedAt: Date;
         };
     } & {
         id: string;
-        updatedAt: Date;
-        title: string;
-        imageUrl: string | null;
-        publishedAt: Date | null;
-        status: string;
         createdAt: Date;
+        updatedAt: Date;
         referenceId: string;
         type: string;
+        title: string;
         description: string;
         wardId: string | null;
         categoryId: string;
         latitude: number | null;
         longitude: number | null;
+        imageUrl: string | null;
+        status: string;
         authorId: string | null;
         authorName: string | null;
         contact: string | null;
         isAnonymous: boolean;
         supportCount: number;
         commentCount: number;
+        publishedAt: Date | null;
         resolvedAt: Date | null;
         resolutionNote: string | null;
         resolutionMediaUrl: string | null;
@@ -491,9 +491,9 @@ export declare class AppealsService {
     }>;
     moderateComment(id: string, status: CommentStatus): Promise<{
         id: string;
+        createdAt: Date;
         updatedAt: Date;
         status: string;
-        createdAt: Date;
         appealId: string;
         userId: string | null;
         parentId: string | null;
@@ -501,9 +501,9 @@ export declare class AppealsService {
     }>;
     moderateReport(id: string, status: ReportStatus): Promise<{
         id: string;
-        status: string;
         createdAt: Date;
         description: string | null;
+        status: string;
         resolvedAt: Date | null;
         appealId: string;
         reportedBy: string | null;
@@ -513,14 +513,14 @@ export declare class AppealsService {
     adminReports(): Promise<({
         appeal: {
             id: string;
-            title: string;
             referenceId: string;
+            title: string;
         };
         comment: {
             id: string;
+            createdAt: Date;
             updatedAt: Date;
             status: string;
-            createdAt: Date;
             appealId: string;
             userId: string | null;
             parentId: string | null;
@@ -528,9 +528,9 @@ export declare class AppealsService {
         } | null;
     } & {
         id: string;
-        status: string;
         createdAt: Date;
         description: string | null;
+        status: string;
         resolvedAt: Date | null;
         appealId: string;
         reportedBy: string | null;
@@ -546,23 +546,23 @@ export declare class AppealsService {
         isActive?: boolean;
     }): Promise<{
         id: string;
-        updatedAt: Date;
-        createdAt: Date;
         nameNp: string;
         nameEn: string;
         slug: string;
         icon: string | null;
         isActive: boolean;
+        createdAt: Date;
+        updatedAt: Date;
     }>;
     removeCategory(id: string): Promise<{
         id: string;
-        updatedAt: Date;
-        createdAt: Date;
         nameNp: string;
         nameEn: string;
         slug: string;
         icon: string | null;
         isActive: boolean;
+        createdAt: Date;
+        updatedAt: Date;
     }>;
     analytics(): Promise<{
         total: number;
@@ -595,35 +595,35 @@ export declare class AppealsService {
     similar(title: string, description: string, wardId?: string): Promise<(Omit<{
         category: {
             id: string;
-            updatedAt: Date;
-            createdAt: Date;
             nameNp: string;
             nameEn: string;
             slug: string;
             icon: string | null;
             isActive: boolean;
+            createdAt: Date;
+            updatedAt: Date;
         };
     } & {
         id: string;
-        updatedAt: Date;
-        title: string;
-        imageUrl: string | null;
-        publishedAt: Date | null;
-        status: string;
         createdAt: Date;
+        updatedAt: Date;
         referenceId: string;
         type: string;
+        title: string;
         description: string;
         wardId: string | null;
         categoryId: string;
         latitude: number | null;
         longitude: number | null;
+        imageUrl: string | null;
+        status: string;
         authorId: string | null;
         authorName: string | null;
         contact: string | null;
         isAnonymous: boolean;
         supportCount: number;
         commentCount: number;
+        publishedAt: Date | null;
         resolvedAt: Date | null;
         resolutionNote: string | null;
         resolutionMediaUrl: string | null;
