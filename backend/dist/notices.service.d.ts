@@ -1,3 +1,4 @@
+import { PrismaService } from './prisma.service';
 export type NoticeRecord = {
     id: string;
     title: string;
@@ -6,12 +7,17 @@ export type NoticeRecord = {
     published: boolean;
     updatedAt: string;
 };
+type NoticeInput = Omit<NoticeRecord, 'id' | 'updatedAt'>;
 export declare class NoticesService {
-    private notices;
-    list(): NoticeRecord[];
-    create(input: Omit<NoticeRecord, 'id' | 'updatedAt'>): NoticeRecord;
-    update(id: string, input: Partial<Omit<NoticeRecord, 'id' | 'updatedAt'>>): NoticeRecord;
-    remove(id: string): {
+    private readonly prisma;
+    constructor(prisma: PrismaService);
+    list(): Promise<NoticeRecord[]>;
+    create(input: NoticeInput): Promise<NoticeRecord>;
+    update(id: string, input: Partial<NoticeInput>): Promise<NoticeRecord>;
+    remove(id: string): Promise<{
         deleted: boolean;
-    };
+    }>;
+    private imageValue;
+    private toRecord;
 }
+export {};

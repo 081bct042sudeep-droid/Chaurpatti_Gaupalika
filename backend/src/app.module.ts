@@ -4,9 +4,10 @@ import { OfficialDataImportModule } from './data-import/official-data-import.mod
 import { NoticesController } from './notices.controller';
 import { NoticesService } from './notices.service';
 import { AppealsModule } from './appeals.module';
+import { PrismaModule } from './prisma.module';
 
 @Module({
-  imports: [OfficialDataImportModule, AppealsModule],
+  imports: [PrismaModule, OfficialDataImportModule, AppealsModule],
   controllers: [HealthController, NoticesController],
   providers: [NoticesService],
 })

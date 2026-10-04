@@ -13,12 +13,13 @@ const official_data_import_module_1 = require("./data-import/official-data-impor
 const notices_controller_1 = require("./notices.controller");
 const notices_service_1 = require("./notices.service");
 const appeals_module_1 = require("./appeals.module");
+const prisma_module_1 = require("./prisma.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [official_data_import_module_1.OfficialDataImportModule, appeals_module_1.AppealsModule],
+        imports: [prisma_module_1.PrismaModule, official_data_import_module_1.OfficialDataImportModule, appeals_module_1.AppealsModule],
         controllers: [health_controller_1.HealthController, notices_controller_1.NoticesController],
         providers: [notices_service_1.NoticesService],
     })

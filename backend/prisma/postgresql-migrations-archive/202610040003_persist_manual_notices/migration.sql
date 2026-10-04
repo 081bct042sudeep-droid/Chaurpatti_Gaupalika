@@ -1,0 +1,5 @@
+ALTER TABLE "Notice"
+ADD COLUMN "summary" TEXT NOT NULL DEFAULT '',
+ADD COLUMN "imageUrl" TEXT;
+
+ALTER TABLE "Notice" ALTER COLUMN "detailUrl" SET DEFAULT '/';

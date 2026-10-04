@@ -3,54 +3,8 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
-}
-
-enum VerificationStatus {
-  UNVERIFIED
-  PENDING_REVIEW
-  VERIFIED
-  CONFLICT
-  ARCHIVED
-}
-
-enum PublicationStatus {
-  DRAFT
-  PENDING_REVIEW
-  APPROVED
-  PUBLISHED
-  ARCHIVED
-}
-
-enum AppealType {
-  PROBLEM
-  SUGGESTION
-}
-
-enum AppealStatus {
-  PENDING
-  APPROVED
-  UNDER_REVIEW
-  FORWARDED
-  IN_PROGRESS
-  RESOLVED
-  REJECTED
-  ARCHIVED
-}
-
-enum CommentStatus {
-  VISIBLE
-  PENDING
-  HIDDEN
-  DELETED
-}
-
-enum ReportStatus {
-  PENDING
-  REVIEWED
-  RESOLVED
-  DISMISSED
 }
 
 model ImportBatch {
@@ -66,7 +20,7 @@ model ImportBatch {
   updatedRecords     Int      @default(0)
   conflicts          Int      @default(0)
   failedRecords      Int      @default(0)
-  status             VerificationStatus @default(PENDING_REVIEW)
+  status             String   @default("PENDING_REVIEW")
   createdAt          DateTime @default(now())
 }
 
@@ -79,7 +33,7 @@ model SourceMetadata {
   sourcePublishedAt  DateTime?
   lastFetchedAt      DateTime?
   lastVerifiedAt     DateTime?
-  verificationStatus VerificationStatus @default(UNVERIFIED)
+  verificationStatus String   @default("UNVERIFIED")
   importBatchId      String?
   manuallyEdited     Boolean  @default(false)
   manualEditAt       DateTime?
@@ -96,7 +50,7 @@ model Ward {
   nameEn             String?
   office             String?
   contact            String?
-  status             PublicationStatus @default(DRAFT)
+  status             String   @default("DRAFT")
   sourceMetadataId   String? @unique
   source             SourceMetadata? @relation("WardSource", fields: [sourceMetadataId], references: [id])
   createdAt          DateTime @default(now())
@@ -112,7 +66,7 @@ model Representative {
   phone              String?
   email              String?
   photoUrl           String?
-  status             PublicationStatus @default(DRAFT)
+  status             String   @default("DRAFT")
   sourceMetadataId   String? @unique
   source             SourceMetadata? @relation("RepresentativeSource", fields: [sourceMetadataId], references: [id])
   createdAt          DateTime @default(now())
@@ -124,10 +78,12 @@ model Notice {
   titleNp            String?
   titleEn            String?
   category           String?
-  detailUrl          String
+  detailUrl          String   @default("/")
+  summary            String   @default("")
+  imageUrl           String?
   publishedAt        DateTime?
   attachmentUrl      String?
-  status             PublicationStatus @default(DRAFT)
+  status             String   @default("DRAFT")
   sourceMetadataId   String? @unique
   source             SourceMetadata? @relation("NoticeSource", fields: [sourceMetadataId], references: [id])
   createdAt          DateTime @default(now())
@@ -144,7 +100,7 @@ model Document {
   sourceUrl          String
   publishedAt        DateTime?
   downloadCount      Int      @default(0)
-  verificationStatus VerificationStatus @default(PENDING_REVIEW)
+  verificationStatus String   @default("PENDING_REVIEW")
   createdAt          DateTime @default(now())
   updatedAt          DateTime @updatedAt
 }
@@ -178,15 +134,15 @@ model AppealCategory {
 model PublicAppeal {
   id            String       @id @default(cuid())
   referenceId   String       @unique
-  type          AppealType
+  type          String
   title         String
   description   String
   wardId        String?
   categoryId    String
-  latitude      Decimal?     @db.Decimal(10, 7)
-  longitude     Decimal?     @db.Decimal(10, 7)
+  latitude      Float?
+  longitude     Float?
   imageUrl      String?
-  status        AppealStatus @default(PENDING)
+  status        String       @default("PENDING")
   authorId      String?
   authorName    String?
   contact       String?
@@ -197,6 +153,8 @@ model PublicAppeal {
   updatedAt     DateTime     @updatedAt
   publishedAt   DateTime?
   resolvedAt    DateTime?
+  resolutionNote String?
+  resolutionMediaUrl String?
   category      AppealCategory @relation(fields: [categoryId], references: [id])
   votes         AppealVote[]
   comments      AppealComment[]
@@ -223,10 +181,13 @@ model AppealComment {
   userId    String?
   parentId  String?
   content   String
-  status    CommentStatus  @default(PENDING)
+  status    String         @default("PENDING")
   createdAt DateTime       @default(now())
   updatedAt DateTime       @updatedAt
   appeal    PublicAppeal  @relation(fields: [appealId], references: [id], onDelete: Cascade)
+  parent    AppealComment? @relation("CommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
+  replies   AppealComment[] @relation("CommentReplies")
+  reports   AppealReport[]
   @@index([appealId, status])
 }
 
@@ -237,10 +198,11 @@ model AppealReport {
   reportedBy  String?
   reason      String
   description String?
-  status      ReportStatus @default(PENDING)
+  status      String       @default("PENDING")
   createdAt   DateTime     @default(now())
   resolvedAt  DateTime?
   appeal      PublicAppeal @relation(fields: [appealId], references: [id], onDelete: Cascade)
+  comment     AppealComment? @relation(fields: [commentId], references: [id], onDelete: Cascade)
 }
 
 model AppealResponse {
@@ -255,7 +217,7 @@ model AppealResponse {
 model AppealStatusHistory {
   id        String       @id @default(cuid())
   appealId  String
-  status    AppealStatus
+  status    String
   note      String?
   createdBy String?
   createdAt DateTime     @default(now())

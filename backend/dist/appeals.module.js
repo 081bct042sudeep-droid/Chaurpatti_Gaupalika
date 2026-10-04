@@ -8,16 +8,16 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppealsModule = void 0;
 const common_1 = require("@nestjs/common");
-const prisma_service_1 = require("./prisma.service");
 const appeals_controller_1 = require("./appeals.controller");
 const appeals_service_1 = require("./appeals.service");
+const appeals_security_1 = require("./appeals-security");
 let AppealsModule = class AppealsModule {
 };
 exports.AppealsModule = AppealsModule;
 exports.AppealsModule = AppealsModule = __decorate([
     (0, common_1.Module)({
         controllers: [appeals_controller_1.AppealsController],
-        providers: [prisma_service_1.PrismaService, appeals_service_1.AppealsService],
+        providers: [appeals_service_1.AppealsService, appeals_security_1.AppealsSecurityService, appeals_security_1.AppealsRateLimitGuard, appeals_security_1.AdminApiKeyGuard],
         exports: [appeals_service_1.AppealsService],
     })
 ], AppealsModule);

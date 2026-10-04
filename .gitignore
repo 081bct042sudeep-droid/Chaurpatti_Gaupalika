@@ -1,0 +1,11 @@
+**/.env
+!**/.env.example
+backend/dev.db
+backend/dev.db-journal
+backend/uploads/
+frontend-dev.log
+frontend-dev-error.log
+frontend/node_modules/
+backend/node_modules/
+frontend/dist/
+backend/dist/
