@@ -7,9 +7,10 @@ import { AppealsModule } from './appeals.module';
 import { PrismaModule } from './prisma.module';
 import { MapController } from './map.controller';
 import { MapService } from './map.service';
+import { TourismModule } from './tourism.module';
 
 @Module({
-  imports: [PrismaModule, OfficialDataImportModule, AppealsModule],
+  imports: [PrismaModule, OfficialDataImportModule, AppealsModule, TourismModule],
   controllers: [HealthController, NoticesController, MapController],
   providers: [NoticesService, MapService],
 })

@@ -6,6 +6,6 @@ import { AdminApiKeyGuard, AppealsRateLimitGuard, AppealsSecurityService } from 
 @Module({
   controllers: [AppealsController],
   providers: [AppealsService, AppealsSecurityService, AppealsRateLimitGuard, AdminApiKeyGuard],
-  exports: [AppealsService],
+  exports: [AppealsService, AppealsSecurityService, AdminApiKeyGuard, AppealsRateLimitGuard],
 })
 export class AppealsModule {}

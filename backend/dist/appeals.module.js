@@ -18,7 +18,7 @@ exports.AppealsModule = AppealsModule = __decorate([
     (0, common_1.Module)({
         controllers: [appeals_controller_1.AppealsController],
         providers: [appeals_service_1.AppealsService, appeals_security_1.AppealsSecurityService, appeals_security_1.AppealsRateLimitGuard, appeals_security_1.AdminApiKeyGuard],
-        exports: [appeals_service_1.AppealsService],
+        exports: [appeals_service_1.AppealsService, appeals_security_1.AppealsSecurityService, appeals_security_1.AdminApiKeyGuard, appeals_security_1.AppealsRateLimitGuard],
     })
 ], AppealsModule);
 //# sourceMappingURL=appeals.module.js.map

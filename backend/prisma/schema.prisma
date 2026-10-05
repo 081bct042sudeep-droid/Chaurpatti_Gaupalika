@@ -1,6 +1,6 @@
 generator client {
   provider = "prisma-client-js"
-  output   = "../node_modules/.prisma/map-client"
+  output   = "../node_modules/.prisma/portal-client"
 }
 
 datasource db {
@@ -65,6 +65,7 @@ model MapCategory {
   nameEn    String
   icon      String?
   isActive  Boolean     @default(true)
+  isTourism Boolean     @default(false)
   createdAt DateTime    @default(now())
   updatedAt DateTime    @updatedAt
   places    MapPlace[]
@@ -77,7 +78,7 @@ model MapPlace {
   nameEn         String?
   descriptionNp  String?
   descriptionEn  String?
-  categoryId     String
+  categoryId     String?
   wardNumber     Int?
   latitude       Float?
   longitude      Float?
@@ -89,6 +90,33 @@ model MapPlace {
   website        String?
   imageUrl       String?
   openingHours   String?
+  isTourism      Boolean     @default(false)
+  tourismStatus  String      @default("DRAFT")
+  shortDescriptionNp String?
+  shortDescriptionEn String?
+  historyNp      String?
+  historyEn      String?
+  culturalSignificanceNp String?
+  culturalSignificanceEn String?
+  religiousSignificanceNp String?
+  religiousSignificanceEn String?
+  naturalFeaturesNp String?
+  naturalFeaturesEn String?
+  activitiesNp   String?
+  activitiesEn   String?
+  bestTimeNp     String?
+  bestTimeEn     String?
+  howToReachNp   String?
+  howToReachEn   String?
+  facilitiesNp   String?
+  facilitiesEn   String?
+  safetyInfoNp   String?
+  safetyInfoEn   String?
+  emergencyInfoNp String?
+  emergencyInfoEn String?
+  viewCount      Int         @default(0)
+  averageRating  Float       @default(0)
+  ratingCount    Int         @default(0)
   isPublished    Boolean     @default(false)
   isVerified     Boolean     @default(false)
   sourceName     String?
@@ -96,9 +124,88 @@ model MapPlace {
   verifiedAt     DateTime?
   createdAt      DateTime    @default(now())
   updatedAt      DateTime    @updatedAt
-  category       MapCategory @relation(fields: [categoryId], references: [id])
+  category       MapCategory? @relation(fields: [categoryId], references: [id])
+  tourismImages  TourismImage[]
+  tourismRatings TourismRating[]
+  tourismReviews TourismReview[]
+  tourismVisits  TourismVisit[]
+  tourismFavorites TourismFavorite[]
   @@index([isPublished, isVerified, wardNumber])
   @@index([categoryId])
+}
+
+model TourismImage {
+  id        String   @id @default(cuid())
+  placeId   String
+  url       String
+  captionNp String?
+  captionEn String?
+  altText   String?
+  sortOrder Int      @default(0)
+  isFeatured Boolean @default(false)
+  createdAt DateTime @default(now())
+  place     MapPlace @relation(fields: [placeId], references: [id], onDelete: Cascade)
+  @@index([placeId, sortOrder])
+}
+
+model TourismRating {
+  id          String   @id @default(cuid())
+  placeId     String
+  visitorHash String
+  rating      Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  place       MapPlace @relation(fields: [placeId], references: [id], onDelete: Cascade)
+  @@unique([placeId, visitorHash])
+  @@index([placeId, rating])
+}
+
+model TourismReview {
+  id          String   @id @default(cuid())
+  placeId     String
+  visitorHash String
+  content     String
+  status      String   @default("PENDING")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  place       MapPlace @relation(fields: [placeId], references: [id], onDelete: Cascade)
+  reports     TourismReviewReport[]
+  @@unique([placeId, visitorHash])
+  @@index([placeId, status, createdAt])
+}
+
+model TourismReviewReport {
+  id          String   @id @default(cuid())
+  reviewId    String
+  visitorHash String
+  reason      String
+  details     String?
+  status      String   @default("PENDING")
+  createdAt   DateTime @default(now())
+  review      TourismReview @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+  @@unique([reviewId, visitorHash])
+  @@index([status, createdAt])
+}
+
+model TourismVisit {
+  id          String   @id @default(cuid())
+  placeId     String
+  visitorHash String
+  dayBucket   String
+  createdAt   DateTime @default(now())
+  place       MapPlace @relation(fields: [placeId], references: [id], onDelete: Cascade)
+  @@unique([placeId, visitorHash, dayBucket])
+  @@index([placeId, dayBucket])
+}
+
+model TourismFavorite {
+  id          String   @id @default(cuid())
+  placeId     String
+  visitorHash String
+  createdAt   DateTime @default(now())
+  place       MapPlace @relation(fields: [placeId], references: [id], onDelete: Cascade)
+  @@unique([placeId, visitorHash])
+  @@index([visitorHash])
 }
 
 model MapBoundary {
