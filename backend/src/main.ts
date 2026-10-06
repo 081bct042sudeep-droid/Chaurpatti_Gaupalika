@@ -11,6 +11,7 @@ async function bootstrap() {
   app.use('/api/uploads/appeals', expressStatic(join(process.cwd(), 'uploads', 'appeals')));
   app.use('/api/uploads/map', expressStatic(join(process.cwd(), 'uploads', 'map')));
   app.use('/api/uploads/tourism', expressStatic(join(process.cwd(), 'uploads', 'tourism')));
+  app.use('/api/uploads/notices', expressStatic(join(process.cwd(), 'uploads', 'notices')));
   app.enableCors({ origin: true });
   app.setGlobalPrefix('api');
   app.useGlobalPipes(new ValidationPipe({ transform: true, whitelist: true }));

@@ -389,3 +389,31 @@ model AppealStatusHistory {
   appeal    PublicAppeal @relation(fields: [appealId], references: [id], onDelete: Cascade)
   @@index([appealId, createdAt])
 }
+
+model OfficialService {
+  id                     String   @id @default(cuid())
+  slug                   String   @unique
+  nameNp                 String
+  nameEn                 String
+  categoryNp             String?
+  categoryEn             String?
+  descriptionNp          String?
+  descriptionEn          String?
+  officialWebsiteUrl     String?
+  officialApplicationUrl String?
+  officialFormUrl        String?
+  officialSourceUrl      String
+  sourceName             String
+  sourceDocumentName     String?
+  verificationStatus     String   @default("NEEDS_REVIEW")
+  verifiedAt             DateTime?
+  verifiedBy             String?
+  notes                  String?
+  keywordsJson           String   @default("[]")
+  displayOrder           Int      @default(0)
+  isPublished            Boolean  @default(false)
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
+
+  @@index([isPublished, verificationStatus, displayOrder])
+}

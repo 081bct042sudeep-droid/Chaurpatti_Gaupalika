@@ -5,6 +5,7 @@ export type NoticeRecord = {
     summary: string;
     imageUrl?: string;
     published: boolean;
+    attachmentUrl?: string;
     updatedAt: string;
 };
 type NoticeInput = Omit<NoticeRecord, 'id' | 'updatedAt'>;
@@ -18,6 +19,16 @@ export declare class NoticesService {
         deleted: boolean;
     }>;
     private imageValue;
+    private attachmentValue;
+    uploadAttachment(file: {
+        buffer: Buffer;
+        mimetype: string;
+        originalname: string;
+        size: number;
+    }): Promise<{
+        attachmentUrl: string;
+    }>;
+    private validJson;
     private toRecord;
 }
 export {};

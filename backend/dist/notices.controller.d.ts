@@ -3,6 +3,14 @@ export declare class NoticesController {
     private readonly notices;
     constructor(notices: NoticesService);
     list(): Promise<NoticeRecord[]>;
+    upload(file?: {
+        buffer: Buffer;
+        mimetype: string;
+        originalname: string;
+        size: number;
+    }): Promise<{
+        attachmentUrl: string;
+    }>;
     create(body: Omit<NoticeRecord, 'id' | 'updatedAt'>): Promise<NoticeRecord>;
     update(id: string, body: Partial<Omit<NoticeRecord, 'id' | 'updatedAt'>>): Promise<NoticeRecord>;
     remove(id: string): Promise<{

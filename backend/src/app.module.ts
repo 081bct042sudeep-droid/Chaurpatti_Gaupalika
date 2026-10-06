@@ -8,10 +8,13 @@ import { PrismaModule } from './prisma.module';
 import { MapController } from './map.controller';
 import { MapService } from './map.service';
 import { TourismModule } from './tourism.module';
+import { OfficialServicesModule } from './official-services.module';
+import { DocumentsController } from './documents.controller';
+import { DocumentsService } from './documents.service';
 
 @Module({
-  imports: [PrismaModule, OfficialDataImportModule, AppealsModule, TourismModule],
-  controllers: [HealthController, NoticesController, MapController],
-  providers: [NoticesService, MapService],
+  imports: [PrismaModule, OfficialDataImportModule, AppealsModule, TourismModule, OfficialServicesModule],
+  controllers: [HealthController, NoticesController, DocumentsController, MapController],
+  providers: [NoticesService, DocumentsService, MapService],
 })
 export class AppModule {}

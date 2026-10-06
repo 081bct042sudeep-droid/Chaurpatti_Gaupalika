@@ -10,7 +10,7 @@ import { useLanguage } from './language'
 import type { Language } from './language'
 
 type Category = { id: string; slug: string; nameNp: string; nameEn: string; icon?: string }
-type Place = { id: string; slug: string; nameNp: string; nameEn?: string; descriptionNp?: string; descriptionEn?: string; categoryId: string; category: Category; wardNumber?: number | null; latitude?: number | null; longitude?: number | null; geometry?: string | null; address?: string; phone?: string; email?: string; website?: string; imageUrl?: string; openingHours?: string; sourceName?: string; sourceUrl?: string }
+type Place = { id: string; slug: string; nameNp: string; nameEn?: string; descriptionNp?: string; descriptionEn?: string; categoryId: string; category: Category; wardNumber?: number | null; latitude?: number | null; longitude?: number | null; geometry?: string | null; address?: string; phone?: string; email?: string; website?: string; imageUrl?: string; openingHours?: string; sourceName?: string; sourceUrl?: string; isTourism?: boolean }
 type Appeal = { id: string; title: string; wardId?: string; status: string; supportCount: number; commentCount: number; latitude: number; longitude: number; category: { nameNp: string; icon?: string } }
 type GeoResult = { id: string; name: string; displayName: string; latitude: number; longitude: number; type: string; boundingBox?: number[]; geometry?: GeoJsonObject }
 type Boundary = { id: string; name: string; wardNumber?: number | null; layerType?: string; geoJson: GeoJsonObject }

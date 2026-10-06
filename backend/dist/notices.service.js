@@ -12,6 +12,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.NoticesService = void 0;
 const common_1 = require("@nestjs/common");
 const prisma_service_1 = require("./prisma.service");
+const node_crypto_1 = require("node:crypto");
+const promises_1 = require("node:fs/promises");
+const node_path_1 = require("node:path");
 const PublicationStatus = { DRAFT: 'DRAFT', PUBLISHED: 'PUBLISHED' };
 let NoticesService = class NoticesService {
     constructor(prisma) {
@@ -19,7 +22,7 @@ let NoticesService = class NoticesService {
     }
     async list() {
         const notices = await this.prisma.notice.findMany({
-            where: { sourceMetadataId: null, status: PublicationStatus.PUBLISHED },
+            where: { sourceMetadataId: null, status: PublicationStatus.PUBLISHED, attachmentUrl: null },
             orderBy: [{ publishedAt: 'desc' }, { createdAt: 'desc' }],
         });
         return notices.map((notice) => this.toRecord(notice));
@@ -33,6 +36,7 @@ let NoticesService = class NoticesService {
                 titleEn: title.slice(0, 240),
                 summary: input.summary?.trim().slice(0, 10_000) ?? '',
                 imageUrl: this.imageValue(input.imageUrl),
+                attachmentUrl: this.attachmentValue(input.attachmentUrl),
                 detailUrl: '/',
                 status: input.published ? PublicationStatus.PUBLISHED : PublicationStatus.DRAFT,
                 publishedAt: input.published ? new Date() : null,
@@ -52,6 +56,7 @@ let NoticesService = class NoticesService {
                 ...(input.title === undefined ? {} : { titleEn: input.title.trim().slice(0, 240) }),
                 ...(input.summary === undefined ? {} : { summary: input.summary.trim().slice(0, 10_000) }),
                 ...(input.imageUrl === undefined ? {} : { imageUrl: this.imageValue(input.imageUrl) }),
+                ...(input.attachmentUrl === undefined ? {} : { attachmentUrl: this.attachmentValue(input.attachmentUrl) }),
                 ...(input.published === undefined ? {} : {
                     status: input.published ? PublicationStatus.PUBLISHED : PublicationStatus.DRAFT,
                     publishedAt: input.published ? new Date() : null,
@@ -73,12 +78,49 @@ let NoticesService = class NoticesService {
             throw new common_1.BadRequestException('Notice image must be a supported image under 9 MB');
         return value;
     }
+    attachmentValue(value) {
+        if (!value)
+            return null;
+        if (value.startsWith('/api/uploads/notices/'))
+            return value;
+        try {
+            const url = new URL(value);
+            return ['https:', 'http:'].includes(url.protocol) ? url.toString() : null;
+        }
+        catch {
+            throw new common_1.BadRequestException('Notice attachment URL is invalid');
+        }
+    }
+    async uploadAttachment(file) {
+        if (!file || file.size > 15 * 1024 * 1024)
+            throw new common_1.BadRequestException('Choose an attachment smaller than 15 MB.');
+        const ext = (0, node_path_1.extname)(file.originalname).toLowerCase();
+        const valid = (file.mimetype === 'application/pdf' && ext === '.pdf' && file.buffer.subarray(0, 4).toString() === '%PDF')
+            || (['text/csv', 'application/csv'].includes(file.mimetype) && ext === '.csv' && !file.buffer.includes(0))
+            || (['application/json', 'application/geo+json'].includes(file.mimetype) && ['.json', '.geojson'].includes(ext) && this.validJson(file.buffer))
+            || (file.mimetype === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' && ext === '.xlsx' && file.buffer.subarray(0, 2).toString() === 'PK');
+        if (!valid)
+            throw new common_1.BadRequestException('Upload a valid PDF, CSV, JSON, GeoJSON, or XLSX document.');
+        const filename = `${(0, node_crypto_1.randomUUID)()}${ext}`;
+        const directory = (0, node_path_1.join)(process.cwd(), 'uploads', 'notices');
+        await (0, promises_1.mkdir)(directory, { recursive: true });
+        await (0, promises_1.writeFile)((0, node_path_1.join)(directory, filename), file.buffer, { flag: 'wx' });
+        return { attachmentUrl: `/api/uploads/notices/${filename}` };
+    }
+    validJson(buffer) { try {
+        JSON.parse(buffer.toString('utf8'));
+        return true;
+    }
+    catch {
+        return false;
+    } }
     toRecord(notice) {
         return {
             id: notice.id,
             title: notice.titleEn ?? notice.titleNp ?? '',
             summary: notice.summary,
             imageUrl: notice.imageUrl ?? undefined,
+            attachmentUrl: notice.attachmentUrl ?? undefined,
             published: notice.status === PublicationStatus.PUBLISHED,
             updatedAt: (notice.publishedAt ?? notice.updatedAt ?? notice.createdAt).toISOString(),
         };

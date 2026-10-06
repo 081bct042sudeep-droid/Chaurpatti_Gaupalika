@@ -1,0 +1,108 @@
+
+> chaurpati-digital-portal-api@0.1.0 start
+> node --env-file-if-exists=.env dist/main.js
+
+[Nest] 19764  - 10/07/2026, 12:28:40 AM     LOG [NestFactory] Starting Nest application...
+[Nest] 19764  - 10/07/2026, 12:28:40 AM     LOG [InstanceLoader] PrismaModule dependencies initialized +53ms
+[Nest] 19764  - 10/07/2026, 12:28:40 AM     LOG [InstanceLoader] OfficialDataImportModule dependencies initialized +30ms
+[Nest] 19764  - 10/07/2026, 12:28:40 AM     LOG [InstanceLoader] OfficialServicesModule dependencies initialized +0ms
+[Nest] 19764  - 10/07/2026, 12:28:40 AM     LOG [InstanceLoader] AppealsModule dependencies initialized +0ms
+[Nest] 19764  - 10/07/2026, 12:28:40 AM     LOG [InstanceLoader] TourismModule dependencies initialized +0ms
+[Nest] 19764  - 10/07/2026, 12:28:40 AM     LOG [InstanceLoader] AppModule dependencies initialized +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RoutesResolver] HealthController {/api/health}: +494ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/health, GET} route +5ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RoutesResolver] NoticesController {/api/notices}: +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/notices, GET} route +1ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/notices/upload, POST} route +1ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/notices, POST} route +1ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/notices/:id, PATCH} route +1ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/notices/:id, DELETE} route +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RoutesResolver] DocumentsController {/api/documents}: +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/documents, GET} route +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/documents/upload, POST} route +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/documents, POST} route +1ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RoutesResolver] MapController {/api/map}: +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/map/places, GET} route +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/map/autocomplete, GET} route +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/map/geocode, GET} route +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/map/categories, GET} route +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/map/boundaries, GET} route +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/map/appeals, GET} route +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/map/admin/places, GET} route +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/map/admin/categories, GET} route +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/map/admin/boundaries, GET} route +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/map/admin/places, POST} route +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/map/admin/places/:id, PATCH} route +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/map/admin/places/:id, DELETE} route +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/map/admin/categories, POST} route +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/map/admin/upload, POST} route +1ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/map/admin/boundaries, POST} route +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/map/directions, GET} route +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RoutesResolver] OfficialDataImportController {/api/admin/data-import}: +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/admin/data-import/dashboard, GET} route +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/admin/data-import/latest, GET} route +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/admin/data-import/fetch, POST} route +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RoutesResolver] AppealsController {/api/v1}: +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/v1/public-appeals/visitor-token, GET} route +1ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/v1/public-appeals/categories, GET} route +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/v1/public-appeals/mine, GET} route +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/v1/public-appeals/similar, GET} route +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/v1/public-appeals, GET} route +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/v1/public-appeals/:id, GET} route +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/v1/public-appeals/:id/vote, GET} route +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/v1/public-appeals, POST} route +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/v1/public-appeals/upload, POST} route +1ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/v1/public-appeals/:id/vote, POST} route +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/v1/public-appeals/:id/vote, DELETE} route +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/v1/public-appeals/:id/comments, GET} route +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/v1/public-appeals/:id/comments, POST} route +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/v1/public-appeals/:id/report, POST} route +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/v1/admin/public-appeals, GET} route +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/v1/admin/public-appeals/:id, GET} route +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/v1/admin/public-appeals/:id, DELETE} route +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/v1/admin/public-appeals/:id, PATCH} route +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/v1/admin/public-appeals/:id/status, PATCH} route +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/v1/admin/public-appeals/:id/response, POST} route +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/v1/admin/public-appeals/:id/resolve, POST} route +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/v1/admin/appeal-comments/:id/moderation, PATCH} route +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/v1/admin/appeal-reports, GET} route +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/v1/admin/appeal-reports/:id, PATCH} route +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/v1/admin/appeal-categories, GET} route +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/v1/admin/appeal-categories, POST} route +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/v1/admin/appeal-categories/:id, PATCH} route +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/v1/admin/appeal-categories/:id, DELETE} route +1ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/v1/admin/appeal-analytics, GET} route +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RoutesResolver] TourismController {/api/v1/tourism}: +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/v1/tourism/categories, GET} route +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/v1/tourism/places, GET} route +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/v1/tourism/places/:id/favorite, GET} route +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/v1/tourism/places/:id/favorite, POST} route +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/v1/tourism/places/:id/view, POST} route +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/v1/tourism/places/:id/rating, POST} route +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/v1/tourism/places/:id/reviews, POST} route +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/v1/tourism/reviews/:reviewId/report, POST} route +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/v1/tourism/places/:slug, GET} route +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/v1/tourism/admin/dashboard, GET} route +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/v1/tourism/admin/categories, GET} route +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/v1/tourism/admin/categories, POST} route +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/v1/tourism/admin/categories/:id, PATCH} route +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/v1/tourism/admin/places, GET} route +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/v1/tourism/admin/places, POST} route +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/v1/tourism/admin/places/:id, PATCH} route +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/v1/tourism/admin/places/:id/status, PATCH} route +1ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/v1/tourism/admin/places/:id, DELETE} route +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/v1/tourism/admin/places/:id/images, POST} route +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/v1/tourism/admin/places/:id/images/:imageId, DELETE} route +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/v1/tourism/admin/reviews, GET} route +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/v1/tourism/admin/reviews/:id, PATCH} route +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/v1/tourism/admin/review-reports, GET} route +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/v1/tourism/admin/review-reports/:id, PATCH} route +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/v1/tourism/admin/upload, POST} route +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RoutesResolver] OfficialServicesController {/api/official-services}: +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/official-services, GET} route +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/official-services/:slug, GET} route +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RoutesResolver] AdminOfficialServicesController {/api/admin/official-services}: +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/admin/official-services, GET} route +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/admin/official-services, POST} route +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [RouterExplorer] Mapped {/api/admin/official-services/:id, PATCH} route +0ms
+[Nest] 19764  - 10/07/2026, 12:28:41 AM     LOG [NestApplication] Nest application successfully started +28ms

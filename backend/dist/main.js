@@ -12,6 +12,7 @@ async function bootstrap() {
     app.use('/api/uploads/appeals', (0, express_1.static)((0, node_path_1.join)(process.cwd(), 'uploads', 'appeals')));
     app.use('/api/uploads/map', (0, express_1.static)((0, node_path_1.join)(process.cwd(), 'uploads', 'map')));
     app.use('/api/uploads/tourism', (0, express_1.static)((0, node_path_1.join)(process.cwd(), 'uploads', 'tourism')));
+    app.use('/api/uploads/notices', (0, express_1.static)((0, node_path_1.join)(process.cwd(), 'uploads', 'notices')));
     app.enableCors({ origin: true });
     app.setGlobalPrefix('api');
     app.useGlobalPipes(new common_1.ValidationPipe({ transform: true, whitelist: true }));
