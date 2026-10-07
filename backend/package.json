@@ -3,7 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "tsc -p tsconfig.build.json",
+    "build": "npm run db:generate:sqlite-runtime && npm run db:generate:postgres && tsc -p tsconfig.build.json",
+    "build:postgres": "npm run build",
+    "db:generate:sqlite-runtime": "prisma generate --schema prisma/sqlite-runtime.prisma",
+    "db:generate:postgres": "prisma generate --schema prisma/postgresql/schema.prisma",
+    "db:migrate:postgres": "prisma migrate deploy --schema prisma/postgresql/schema.prisma",
+    "migrate:sqlite-to-postgres": "node --experimental-sqlite --env-file-if-exists=.env scripts/migrate-sqlite-to-postgres.cjs",
+    "start:postgres": "npm run db:migrate:postgres && node --env-file-if-exists=.env dist/main.js",
     "start:dev": "tsc -w -p tsconfig.build.json",
     "start": "node --env-file-if-exists=.env dist/main.js"
   },

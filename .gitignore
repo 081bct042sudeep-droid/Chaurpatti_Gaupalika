@@ -10,3 +10,6 @@ frontend/node_modules/
 backend/node_modules/
 frontend/dist/
 backend/dist/
+
+# Local database migration backups (contain database and environment secrets)
+backend/backups/

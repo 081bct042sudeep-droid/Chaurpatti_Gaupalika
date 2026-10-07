@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
-import { Prisma } from '../node_modules/.prisma/portal-client';
+import { Prisma } from '../node_modules/.prisma/portal-postgres-client';
 import { PrismaService } from './prisma.service';
 
 const seededCategories = [

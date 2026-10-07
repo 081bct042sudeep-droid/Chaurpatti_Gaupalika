@@ -1,0 +1,35 @@
+services:
+  - type: web
+    name: chaurpati-api
+    runtime: node
+    plan: free
+    region: singapore
+    rootDir: backend
+    buildCommand: PRISMA_SKIP_POSTINSTALL_GENERATE=true npm ci --include=dev && npm run build:postgres
+    startCommand: npm run start:postgres
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: 22.11.0
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: chaurpati-postgres
+          property: connectionString
+      - key: ADMIN_API_KEY
+        generateValue: true
+      - key: VISITOR_TOKEN_SECRET
+        generateValue: true
+      - key: ROUTING_SERVICE_URL
+        value: https://router.project-osrm.org/route/v1/driving
+      - key: GEOCODER_URL
+        value: https://nominatim.openstreetmap.org/search
+
+databases:
+  - name: chaurpati-postgres
+    plan: free
+    region: singapore
+    databaseName: chaurpati
+    user: chaurpati
+    ipAllowList: []
