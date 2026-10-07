@@ -1,0 +1,19 @@
+.accessibility-tools{position:fixed;z-index:2000;right:14px;bottom:14px;font:14px/1.4 Arial,Helvetica,sans-serif;color:#173d37}
+.accessibility-trigger{min-height:44px;padding:9px 13px;border:1px solid #145f47;border-radius:4px;background:#fff;color:#145f47;font-weight:700;box-shadow:0 2px 8px #173d3722}
+.accessibility-trigger span{margin-right:6px}
+.accessibility-panel{position:absolute;right:0;bottom:52px;width:min(290px,calc(100vw - 28px));padding:14px;border:1px solid #aebfb4;border-top:3px solid #176b4d;background:#fff;box-shadow:0 8px 28px #173d3730}
+.accessibility-panel-heading{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;color:#173d37}
+.accessibility-panel-heading button{width:36px;height:36px;border:0;background:transparent;color:inherit;font-size:22px}
+.accessibility-panel>button{display:block;width:100%;min-height:42px;margin:5px 0;padding:8px 10px;border:1px solid #d5e0d8;background:#fff;color:#244b3d;text-align:left}
+.accessibility-panel>button[aria-pressed="true"]{border-color:#176b4d;background:#e8f3eb;color:#124d38;font-weight:700}
+.accessibility-panel p{margin:10px 0 0;color:#607268;font-size:12px}
+:where(a,button,input,select,textarea,[tabindex]):focus-visible{outline:3px solid #176fc1!important;outline-offset:2px!important}
+html.a11y-large-text body :is(p,li,label,input,select,textarea,td,th,small,button,a){font-size:calc(1em + 2px)!important}
+html.a11y-high-contrast body{filter:contrast(1.22)}
+html.a11y-high-contrast :where(a,button,input,select,textarea){text-decoration-thickness:2px}
+html.a11y-reduced-motion *,html.a11y-reduced-motion *::before,html.a11y-reduced-motion *::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+html.a11y-low-bandwidth .reference-hero,html.a11y-low-bandwidth .reference-map,html.a11y-low-bandwidth .public-hero{background-image:none!important;background-color:#315c4d!important}
+html.a11y-low-bandwidth .tourism-card-photo,html.a11y-low-bandwidth .tourism-gallery img,html.a11y-low-bandwidth .appeal-card-body img,html.a11y-low-bandwidth .notice-row-image,html.a11y-low-bandwidth .notice-popup-image,html.a11y-low-bandwidth .notice-photo-preview,html.a11y-low-bandwidth .place-image{display:none!important}
+@media(max-width:560px){.accessibility-tools{right:10px;bottom:10px}.accessibility-trigger{padding:8px 10px;font-size:13px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+@media(forced-colors:active){.accessibility-trigger,.accessibility-panel,.accessibility-panel>button{border:1px solid ButtonText}.accessibility-panel>button[aria-pressed="true"]{outline:2px solid Highlight}}

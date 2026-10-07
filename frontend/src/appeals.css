@@ -7,3 +7,4 @@
 .ja-admin-delete{border:1px solid #e7b8b4;background:#fff7f6;color:#a33c36;border-radius:8px;padding:8px 11px;cursor:pointer}.ja-admin-delete:hover{background:#fce9e7}
 
 .ja-emblem { display: block; object-fit: cover; background: transparent; border-radius: 50%; flex: none; }
+@media(max-width:700px){.appeals-header{flex-wrap:wrap}.appeals-header nav{display:flex;order:3;width:100%;gap:16px;overflow-x:auto;padding:3px 0;scrollbar-width:thin}.appeals-header nav a{flex:0 0 auto;white-space:nowrap;min-height:42px;display:flex;align-items:center}}

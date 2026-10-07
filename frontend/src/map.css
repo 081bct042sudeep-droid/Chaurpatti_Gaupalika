@@ -9,3 +9,12 @@
 .street-view-setup p{max-width:440px;margin:0;color:#65796e;font-size:13px;line-height:1.6}
 @media(max-width:700px){.google-street-view{min-height:max(400px,52svh)}.street-view-setup{padding:20px}.street-view-setup strong{font-size:16px}}
 .explore-suggestions{max-height:min(65vh,520px);overflow-y:auto}
+.mobile-map-search-toggle{display:none}
+@media(max-width:700px){
+  .mobile-map-search-toggle{display:flex;align-items:center;justify-content:center;width:calc(100% - 28px);min-height:44px;margin:0 14px 6px;padding:9px 12px;border:1px solid #b9cfc0;border-radius:4px;background:#fff;color:#174b38;font:700 14px Arial,sans-serif}
+  .explore-sidebar{display:none;order:0}
+  .explore-sidebar.mobile-search-open{display:block;max-height:58svh;overflow-y:auto}
+  .explore-map-column{order:1}
+  .explore-detail.mobile-bottom-sheet{position:fixed;z-index:1200;left:0;right:0;bottom:0;max-height:48svh;overflow-y:auto;border:1px solid #cbd9d0;border-radius:13px 13px 0 0;box-shadow:0 -7px 22px #163c302b;padding:16px 14px calc(18px + env(safe-area-inset-bottom));background:#fff}
+  .explore-detail.mobile-bottom-sheet .detail-heading{position:sticky;top:-16px;z-index:2;padding:5px 0 8px;background:#fff}
+}
