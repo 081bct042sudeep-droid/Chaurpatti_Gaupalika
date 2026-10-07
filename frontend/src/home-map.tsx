@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { apiFetch as fetch } from './api-client'
 import { useLanguage } from './language'
 
 type MapPlace = { id: string; latitude?: number | null; longitude?: number | null }

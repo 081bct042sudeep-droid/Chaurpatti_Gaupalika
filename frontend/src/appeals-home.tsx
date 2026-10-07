@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { apiFetch as fetch } from './api-client'
 import type { Appeal } from './appeals'
 import type { Language } from './language'
 
