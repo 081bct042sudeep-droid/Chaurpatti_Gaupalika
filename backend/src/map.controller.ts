@@ -5,6 +5,7 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { AdminApiKeyGuard, AppealsRateLimitGuard } from './appeals-security';
 import { MapService } from './map.service';
+import { uploadDirectory } from './upload-storage';
 
 @Controller('map')
 @UseGuards(AppealsRateLimitGuard)
@@ -34,7 +35,7 @@ export class MapController {
     const webp = file?.buffer.toString('ascii', 0, 4) === 'RIFF' && file.buffer.toString('ascii', 8, 12) === 'WEBP';
     if (!file || !['image/jpeg', 'image/png', 'image/webp'].includes(file.mimetype) || !(jpeg || png || webp)) throw new BadRequestException('Choose a valid JPG, PNG, or WEBP image up to 5 MB');
     const ext = file.mimetype === 'image/jpeg' ? 'jpg' : file.mimetype.split('/')[1];
-    const dir = join(process.cwd(), 'uploads', 'map'); await mkdir(dir, { recursive: true });
+    const dir = uploadDirectory('map'); await mkdir(dir, { recursive: true });
     const filename = `${randomUUID()}.${ext}`; await writeFile(join(dir, filename), file.buffer, { flag: 'wx' });
     return { url: `/api/uploads/map/${filename}` };
   }

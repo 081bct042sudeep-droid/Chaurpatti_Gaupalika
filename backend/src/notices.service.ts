@@ -3,6 +3,7 @@ import { PrismaService } from './prisma.service';
 import { randomUUID } from 'node:crypto';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { extname, join } from 'node:path';
+import { uploadDirectory } from './upload-storage';
 
 const PublicationStatus = { DRAFT: 'DRAFT', PUBLISHED: 'PUBLISHED' } as const;
 type PublicationStatus = (typeof PublicationStatus)[keyof typeof PublicationStatus];
@@ -96,7 +97,7 @@ export class NoticesService {
       || (file.mimetype === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' && ext === '.xlsx' && file.buffer.subarray(0, 2).toString() === 'PK');
     if (!valid) throw new BadRequestException('Upload a valid PDF, CSV, JSON, GeoJSON, or XLSX document.');
     const filename = `${randomUUID()}${ext}`;
-    const directory = join(process.cwd(), 'uploads', 'notices');
+    const directory = uploadDirectory('notices');
     await mkdir(directory, { recursive: true });
     await writeFile(join(directory, filename), file.buffer, { flag: 'wx' });
     return { attachmentUrl: `/api/uploads/notices/${filename}` };

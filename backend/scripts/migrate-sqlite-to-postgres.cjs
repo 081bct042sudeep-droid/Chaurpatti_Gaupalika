@@ -22,6 +22,11 @@ function hash(value) {
 
 function canonicalDate(value) {
   if (value instanceof Date) return value.toISOString();
+  if ((typeof value === 'number' || typeof value === 'bigint') && Number.isFinite(Number(value))) {
+    const date = new Date(Number(value));
+    if (Number.isNaN(date.getTime())) fail(`Unparseable datetime encountered during validation: ${value}`);
+    return date.toISOString();
+  }
   const raw = String(value);
   const normalized = raw.includes('T') ? raw : raw.replace(' ', 'T');
   const withUtc = /(?:Z|[+-]\d\d(?::?\d\d)?)$/i.test(normalized) ? normalized : `${normalized}Z`;
@@ -146,6 +151,7 @@ function postgresValue(value, column) {
   const type = String(column.type).toUpperCase();
   if (type.includes('BOOL')) return value === true || value === 1 || value === 1n;
   if (type.includes('JSON')) return JSON.stringify(JSON.parse(String(value)));
+  if (type.includes('DATE') || type.includes('TIME')) return canonicalDate(value);
   if (Buffer.isBuffer(value) || value instanceof Uint8Array) return Buffer.from(value);
   return value;
 }
@@ -163,7 +169,7 @@ async function tableRows(client, table, columns, primaryKeys) {
   return client.$queryRawUnsafe(`${select} ORDER BY ${orderBy}`);
 }
 
-async function validateTarget(tx, sourceTables, metadata, sourceRowsByTable) {
+async function validateTarget(tx, sourceTables, metadata, sourceRowsByTable, preservedTargetRowsByTable) {
   const targetTables = await tx.$queryRawUnsafe(
     "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public' AND table_type = 'BASE TABLE' AND table_name <> '_prisma_migrations' ORDER BY table_name",
   );
@@ -176,20 +182,23 @@ async function validateTarget(tx, sourceTables, metadata, sourceRowsByTable) {
   for (const table of sourceTables) {
     const { columns, primaryKeys, foreignKeys } = metadata.get(table);
     const sourceRows = sourceRowsByTable.get(table);
+    const preservedRows = preservedTargetRowsByTable.get(table) ?? [];
+    const expectedRows = [...sourceRows, ...preservedRows];
     const targetRows = await tableRows(tx, table, columns, primaryKeys);
-    const sourceHash = rowFingerprint(sourceRows, columns, primaryKeys);
+    const expectedHash = rowFingerprint(expectedRows, columns, primaryKeys);
     const targetHash = rowFingerprint(targetRows, columns, primaryKeys);
     const sourceCount = sourceRows.length;
     const targetCount = targetRows.length;
     const row = {
       table,
       sourceRows: sourceCount,
+      preservedTargetRows: preservedRows.length,
       targetRows: targetCount,
-      difference: targetCount - sourceCount,
-      sourceContentSha256: sourceHash,
+      difference: targetCount - expectedRows.length,
+      expectedContentSha256: expectedHash,
       targetContentSha256: targetHash,
-      primaryKeysPreserved: sourceHash === targetHash,
-      status: sourceCount === targetCount && sourceHash === targetHash ? 'PASS' : 'FAIL',
+      primaryKeysPreserved: expectedHash === targetHash,
+      status: expectedRows.length === targetCount && expectedHash === targetHash ? 'PASS' : 'FAIL',
     };
     validation.push(row);
     if (row.status !== 'PASS') fail(`Validation failed for table ${table}: row count or content checksum differs.`);
@@ -221,6 +230,7 @@ async function main() {
   let sourceDataVersion;
   let transactionCommitted = false;
   let report;
+  const preservedTargetRowsByTable = new Map();
 
   try {
     sqlite.exec('BEGIN');
@@ -274,13 +284,19 @@ async function main() {
     const extraTables = [...targetSet].filter((table) => !sourceTables.includes(table));
     if (missingTables.length || extraTables.length) fail(`PostgreSQL schema does not match the SQLite source. Missing tables: ${missingTables.join(', ') || 'none'}; unexpected tables: ${extraTables.join(', ') || 'none'}.`);
 
-    for (const table of sourceTables) {
-      const count = await target.$queryRawUnsafe(`SELECT COUNT(*)::text AS count FROM ${quoteIdentifier(table)}`);
-      if (Number(count[0].count) !== 0) fail(`Target table ${table} is not empty; refusing to overwrite or merge existing PostgreSQL data.`);
-    }
-
     const orderedTables = importOrder(sourceTables, metadata);
     await target.$transaction(async (tx) => {
+      await tx.$executeRawUnsafe(`LOCK TABLE ${sourceTables.map(quoteIdentifier).join(', ')} IN SHARE ROW EXCLUSIVE MODE`);
+      for (const table of sourceTables) {
+        const { columns, primaryKeys } = metadata.get(table);
+        const existingRows = await tableRows(tx, table, columns, primaryKeys);
+        const sourceRows = sourceRowsByTable.get(table);
+        if (existingRows.length && sourceRows.length) {
+          fail(`Target table ${table} already contains ${existingRows.length} rows and SQLite contains ${sourceRows.length}; refusing an ambiguous merge.`);
+        }
+        preservedTargetRowsByTable.set(table, existingRows);
+      }
+
       for (const table of orderedTables) {
         const { columns, foreignKeys, primaryKeys } = metadata.get(table);
         const rows = sourceRowsByTable.get(table);
@@ -296,7 +312,8 @@ async function main() {
       }
 
       if (sqlite.prepare('PRAGMA data_version').get().data_version !== sourceDataVersion) fail('SQLite changed during import; target transaction will be rolled back.');
-      const validation = await validateTarget(tx, sourceTables, metadata, sourceRowsByTable);
+      const validation = await validateTarget(tx, sourceTables, metadata, sourceRowsByTable, preservedTargetRowsByTable);
+      const preservedRows = [...preservedTargetRowsByTable.values()].reduce((sum, rows) => sum + rows.length, 0);
       report = {
         status: 'SUCCESS',
         startedAt,
@@ -308,12 +325,13 @@ async function main() {
         sourceForeignKeyViolations: fkProblems.length,
         tablesMigrated: sourceTables.length,
         totalRowsMigrated: totals.rows,
+        targetRowsPreserved: preservedRows,
         excludedTables: [{ name: MIGRATION_LEDGER, reason: 'Prisma migration ledgers are database-provider-specific; PostgreSQL owns its ledger.' }],
         transformations: { booleans: totals.booleanCells, jsonb: totals.jsonCells, datetimeValuesValidated: totals.datetimeCells, changedSemanticValues: 0 },
         unicode: { textCellsChecked: totals.textCells, replacementCharacters: totals.replacementCharacters },
         sequences: 'No integer auto-increment primary keys exist in the source application tables.',
         validation,
-        result: 'All table counts, row contents, primary keys, and foreign keys matched.',
+        result: 'All imported source rows and preserved target rows matched by table count and content checksum; foreign keys validated.',
       };
     }, { timeout: 600000, maxWait: 30000 });
     transactionCommitted = true;

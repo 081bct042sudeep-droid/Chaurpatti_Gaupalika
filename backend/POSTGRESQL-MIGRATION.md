@@ -90,11 +90,18 @@ then check the generated migration report and API data. Keep the external URL
 local and secret. The web service uses the database's internal URL automatically.
 
 The free web service is also a test/demo target: it can spin down, and its local
-filesystem is ephemeral. This includes uploaded files. Long-term uploaded-file
-storage needs a paid persistent disk mounted at
-`/opt/render/project/src/uploads` (which disables zero-downtime deploys) or an
-external object-storage service. Render free web services do not support
-persistent disks.
+filesystem is ephemeral. This includes uploaded files. For persistent uploads,
+attach a disk to the paid web service with mount path `/var/data`, then set the
+service environment variable `UPLOADS_DIR=/var/data/uploads`. The backend uses
+that same directory for uploads and static file serving. Render disks are
+available only to paid web services and prevent zero-downtime deploys. An
+external object-storage service is another option.
+
+Attaching a disk does not copy existing files from `backend/uploads` or recover
+files previously lost from a Render instance. Re-upload existing public images
+and documents from their admin pages after the disk is mounted. The checked-out
+local tourism file `backend/uploads/tourism/f7619adf-6d18-4c02-b1ec-6a8ba6f242c0.jpg`
+is one such file that can be uploaded again through `/admin/tourism`.
 
 ### Manual service settings (if you are not using the Blueprint)
 
@@ -117,9 +124,9 @@ NestJS. Keep the local SQLite database and backup unchanged until the deployed
 API and frontend have passed regression checks.
 
 This is a database-only migration: local uploaded files are not copied. Their
-stored paths remain unchanged, so the existing uploads directory still needs a
-persistent production storage plan before relying on uploaded images or
-documents after a Render restart.
+stored paths remain unchanged, so restore the images and documents through the
+admin pages after configuring persistent storage. Local development continues
+to use `backend/uploads` when `UPLOADS_DIR` is unset.
 
 ## Rollback
 

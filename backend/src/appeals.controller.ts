@@ -6,6 +6,7 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { AppealsService } from './appeals.service';
 import { AdminApiKeyGuard, AppealsRateLimitGuard, AppealsSecurityService } from './appeals-security';
+import { uploadDirectory } from './upload-storage';
 
 type UploadedImage = { buffer: Buffer; mimetype: string; size: number };
 @Controller('v1')
@@ -29,7 +30,7 @@ export class AppealsController {
     const isWebp = file?.buffer.toString('ascii', 0, 4) === 'RIFF' && file.buffer.toString('ascii', 8, 12) === 'WEBP';
     if (!file || !['image/jpeg', 'image/png', 'image/webp'].includes(file.mimetype) || file.size > 5 * 1024 * 1024 || !(isJpeg || isPng || isWebp)) throw new BadRequestException('Choose a valid JPG, PNG, or WEBP image up to 5 MB');
     const ext = file.mimetype === 'image/jpeg' ? 'jpg' : file.mimetype.split('/')[1];
-    const dir = join(process.cwd(), 'uploads', 'appeals'); await mkdir(dir, { recursive: true });
+    const dir = uploadDirectory('appeals'); await mkdir(dir, { recursive: true });
     const filename = `${randomUUID()}.${ext}`; await writeFile(join(dir, filename), file.buffer, { flag: 'wx' });
     return { url: `/api/uploads/appeals/${filename}` };
   }
