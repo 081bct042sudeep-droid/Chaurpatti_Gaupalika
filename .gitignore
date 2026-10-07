@@ -2,6 +2,7 @@
 !**/.env.example
 backend/dev.db
 backend/dev.db-journal
+backend/dev.db.safety-*.sqlite
 backend/uploads/
 frontend-dev.log
 frontend-dev-error.log

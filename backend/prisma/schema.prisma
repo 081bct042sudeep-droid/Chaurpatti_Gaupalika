@@ -417,3 +417,43 @@ model OfficialService {
 
   @@index([isPublished, verificationStatus, displayOrder])
 }
+
+model BudgetSourceDocument {
+  id             String   @id @default(cuid())
+  sourceUrl      String   @unique
+  title          String
+  fiscalYear     String
+  fileHash       String
+  status         String   @default("NEEDS_REVIEW")
+  sourceUpdatedAt DateTime?
+  checkedAt      DateTime @default(now())
+  importedAt     DateTime @default(now())
+  totalNpr       Float?
+  extractedRows  Int      @default(0)
+  validRows      Int      @default(0)
+  warningsJson   String   @default("[]")
+  lastError      String?
+  allocations    BudgetAllocation[]
+  @@index([fiscalYear, status, checkedAt])
+}
+
+model BudgetAllocation {
+  id                String   @id @default(cuid())
+  sourceDocumentId  String
+  fiscalYear        String
+  wardNumber        Int?
+  projectName       String
+  sector            String
+  sectorKey         String
+  expenditureHead   String?
+  budgetCode        String?
+  amountNpr         Float
+  rawAmount         String
+  rawRow            String
+  rowNumber         Int?
+  confidence        Float    @default(0)
+  sourceDocument    BudgetSourceDocument @relation(fields: [sourceDocumentId], references: [id], onDelete: Cascade)
+  @@index([fiscalYear, wardNumber])
+  @@index([fiscalYear, sectorKey])
+  @@index([sourceDocumentId])
+}

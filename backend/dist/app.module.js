@@ -20,12 +20,13 @@ const tourism_module_1 = require("./tourism.module");
 const official_services_module_1 = require("./official-services.module");
 const documents_controller_1 = require("./documents.controller");
 const documents_service_1 = require("./documents.service");
+const budget_module_1 = require("./budget.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [prisma_module_1.PrismaModule, official_data_import_module_1.OfficialDataImportModule, appeals_module_1.AppealsModule, tourism_module_1.TourismModule, official_services_module_1.OfficialServicesModule],
+        imports: [prisma_module_1.PrismaModule, official_data_import_module_1.OfficialDataImportModule, appeals_module_1.AppealsModule, tourism_module_1.TourismModule, official_services_module_1.OfficialServicesModule, budget_module_1.BudgetModule],
         controllers: [health_controller_1.HealthController, notices_controller_1.NoticesController, documents_controller_1.DocumentsController, map_controller_1.MapController],
         providers: [notices_service_1.NoticesService, documents_service_1.DocumentsService, map_service_1.MapService],
     })

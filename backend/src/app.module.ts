@@ -11,9 +11,10 @@ import { TourismModule } from './tourism.module';
 import { OfficialServicesModule } from './official-services.module';
 import { DocumentsController } from './documents.controller';
 import { DocumentsService } from './documents.service';
+import { BudgetModule } from './budget.module';
 
 @Module({
-  imports: [PrismaModule, OfficialDataImportModule, AppealsModule, TourismModule, OfficialServicesModule],
+  imports: [PrismaModule, OfficialDataImportModule, AppealsModule, TourismModule, OfficialServicesModule, BudgetModule],
   controllers: [HealthController, NoticesController, DocumentsController, MapController],
   providers: [NoticesService, DocumentsService, MapService],
 })
