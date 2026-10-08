@@ -9,6 +9,7 @@ export class MapService {
   constructor(private readonly prisma: PrismaService) {}
   private readonly geocodeCache = new Map<string, unknown[]>();
   private readonly autocompleteCache = new Map<string, unknown[]>();
+  private autocompleteUnavailableUntil = 0;
   private geocodeTail: Promise<void> = Promise.resolve();
   private lastGeocodeAt = 0;
 
@@ -32,6 +33,7 @@ export class MapService {
     const cacheKey = `${language}:${term.toLocaleLowerCase()}`;
     const cached = this.autocompleteCache.get(cacheKey);
     if (cached) return { results: cached, provider: 'Photon / OpenStreetMap' };
+    if (Date.now() < this.autocompleteUnavailableUntil) return this.localAutocomplete(term, language);
 
     try {
       const endpoint = process.env.AUTOCOMPLETE_URL || 'https://photon.komoot.io/api/';
@@ -53,10 +55,24 @@ export class MapService {
       this.autocompleteCache.set(cacheKey, results);
       if (this.autocompleteCache.size > 500) this.autocompleteCache.delete(this.autocompleteCache.keys().next().value!);
       return { results, provider: 'Photon / OpenStreetMap' };
-    } catch (error) {
-      if (error instanceof ServiceUnavailableException) throw error;
-      throw new ServiceUnavailableException('The place suggestion service is temporarily unavailable.');
+    } catch {
+      // Photon is a public demo service without an uptime guarantee. Avoid
+      // repeatedly calling it during an outage and keep verified local places
+      // searchable until the provider has had time to recover.
+      this.autocompleteUnavailableUntil = Date.now() + 60_000;
+      return this.localAutocomplete(term, language);
     }
+  }
+
+  private async localAutocomplete(term: string, language: 'en' | 'ne') {
+    const places = await this.publicPlaces(term);
+    const results = places.flatMap((place) => {
+      if (place.latitude == null || place.longitude == null || !Number.isFinite(Number(place.latitude)) || !Number.isFinite(Number(place.longitude))) return [];
+      const name = language === 'en' ? place.nameEn || place.nameNp : place.nameNp || place.nameEn;
+      const area = [place.address, place.wardNumber ? `${language === 'en' ? 'Ward' : 'वडा'} ${place.wardNumber}` : null].filter(Boolean).join(', ');
+      return [{ id: `municipal/${place.id}`, name, displayName: [name, area].filter(Boolean).join(', '), latitude: Number(place.latitude), longitude: Number(place.longitude), type: 'municipal-place' }];
+    });
+    return { results, provider: 'Verified municipal places', fallback: true };
   }
 
   async geocode(query: string) {
