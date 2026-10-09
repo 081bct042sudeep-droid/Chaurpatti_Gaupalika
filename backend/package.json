@@ -11,7 +11,7 @@
     "migrate:sqlite-to-postgres": "node --experimental-sqlite --env-file-if-exists=.env scripts/migrate-sqlite-to-postgres.cjs",
     "start:postgres": "npm run db:migrate:postgres && node --env-file-if-exists=.env dist/main.js",
     "start:dev": "tsc -w -p tsconfig.build.json",
-    "start": "node --env-file-if-exists=.env dist/main.js"
+    "start": "npm run build && node --env-file-if-exists=.env dist/main.js"
   },
   "dependencies": {
     "@nestjs/common": "^10.4.15",
